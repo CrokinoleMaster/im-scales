@@ -1,3 +1,4 @@
+const Im = require('immutable')
 const { interpolate } = require('d3-interpolate')
 const { ticks, tickStep } = require('d3-array')
 const { Scale } = require('./scale')
@@ -55,13 +56,13 @@ class ContinuousScale extends Scale {
 
     ticks(count) {
         const d = this.domain()
-        return ticks(d.first(), d.last(), count === null ? 10 : count)
+        return Im.List(ticks(d.first(), d.last(), count || 10))
     }
 
     nice(count) {
         let d = this.domain()
         const i = d.size - 1
-        const n = count === null ? 10 : count
+        const n = count || 10
         let start = d.first()
         let stop = d.get(i)
         let step = tickStep(start, stop, n)
