@@ -19,3 +19,30 @@ test('set range', t => {
     linear = linear.range([20, 30])
     t.deepEqual(linearD3.range(), linear.range().toJS())
 })
+
+test('scale output', t => {
+    let domain = [1, 10]
+    let range = [20, 40]
+    let linearD3 = scaleLinear().domain(domain).range(range)
+    let linear = new ContinuousScale().domain(domain).range(range)
+    t.is(linearD3(4), linear.x(4))
+    t.is(linearD3.invert(24), linear.y(24))
+})
+
+test('outofbounds not clamped', t => {
+    let domain = [1, 10]
+    let range = [20, 40]
+    let linearD3 = scaleLinear().domain(domain).range(range)
+    let linear = new ContinuousScale().domain(domain).range(range)
+    t.is(linearD3(20), linear.x(20))
+    t.is(linearD3.invert(10), linear.y(10))
+})
+
+test('outofbounds clamped', t => {
+    let domain = [1, 10]
+    let range = [20, 40]
+    let linearD3 = scaleLinear().domain(domain).range(range).clamp(true)
+    let linear = new ContinuousScale().domain(domain).range(range).clamped(true)
+    t.is(linearD3(20), linear.x(20))
+    t.is(linearD3.invert(10), linear.y(10))
+})

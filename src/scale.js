@@ -15,7 +15,6 @@ class Scale extends ScaleRecord {
         }
         return this.set('_domain', Im.List(newDomain))
     }
-
     range(newRange) {
         if (!newRange) {
             return this._range
@@ -30,9 +29,9 @@ class Scale extends ScaleRecord {
     }
     clamped(shouldClamp) {
         if (shouldClamp === undefined) {
-            return this._shouldClamp
+            return this._clamped
         }
-        return this.set('_shouldClamp', shouldClamp)
+        return this.set('_clamped', shouldClamp)
     }
     exponent(newExponent) {
         if (newExponent === undefined) {

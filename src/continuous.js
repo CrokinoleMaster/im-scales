@@ -22,7 +22,7 @@ class ContinuousScale extends Scale {
             (this.domain().max() - this.domain().min())
         n = Math.pow(n, this.exponent())
         // check if clamped is set to true
-        if (this.clamped) {
+        if (this.clamped()) {
             n = clamp(n, 0, 1)
         }
         const result = interpolator(n)
@@ -43,7 +43,7 @@ class ContinuousScale extends Scale {
             (this.range().max() - this.range().min())
         n = Math.pow(n, this.exponent())
         // check if clamped is set to true
-        if (this.clamped) {
+        if (this.clamped()) {
             n = clamp(n, 0, 1)
         }
         const result = interpolator(n)
