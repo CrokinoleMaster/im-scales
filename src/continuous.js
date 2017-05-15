@@ -1,4 +1,3 @@
-const Im = require('immutable')
 const { interpolate } = require('d3-interpolate')
 const { ticks, tickStep } = require('d3-array')
 const { Scale } = require('./scale')
@@ -22,14 +21,15 @@ class ContinuousScale extends Scale {
             (this.domain().max() - this.domain().min())
         n = Math.pow(n, this.exponent())
         // check if clamped is set to true
-        if (this.clamped) n = clamp(n, 0, 1)
+        if (this.clamped) {
+            n = clamp(n, 0, 1)
+        }
         const result = interpolator(n)
         // check if rounded is set to true
         if (isNaN(result) || !this.rounded()) {
             return result
-        } else {
-            return Math.round(result)
         }
+        return Math.round(result)
     }
 
     y(yValue) {
@@ -42,25 +42,26 @@ class ContinuousScale extends Scale {
             (this.range().max() - this.range().min())
         n = Math.pow(n, this.exponent())
         // check if clamped is set to true
-        if (this.clamped) n = clamp(n, 0, 1)
+        if (this.clamped) {
+            n = clamp(n, 0, 1)
+        }
         const result = interpolator(n)
         // check if rounded is set to true
         if (isNaN(result) || !this.rounded()) {
             return result
-        } else {
-            return Math.round(result)
         }
+        return Math.round(result)
     }
 
     ticks(count) {
         const d = this.domain()
-        return ticks(d.first(), d.last(), count == null ? 10 : count)
+        return ticks(d.first(), d.last(), count === null ? 10 : count)
     }
 
     nice(count) {
         let d = this.domain()
         const i = d.size - 1
-        const n = count == null ? 10 : count
+        const n = count === null ? 10 : count
         let start = d.first()
         let stop = d.get(i)
         let step = tickStep(start, stop, n)

@@ -1,3 +1,3 @@
-module.exports.clamp = function(num, min, max) {
+module.exports.clamp = (num, min, max) => {
     return Math.min(Math.max(num, min), max)
 }
