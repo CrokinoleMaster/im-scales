@@ -46,3 +46,27 @@ test('outofbounds clamped', t => {
     t.is(linearD3(20), linear.x(20))
     t.is(linearD3.invert(10), linear.y(10))
 })
+
+test('ticks', t => {
+    let domain = [1, 10]
+    let range = [20, 40]
+    let linearD3 = scaleLinear().domain(domain).range(range).clamp(true)
+    let linear = new ContinuousScale().domain(domain).range(range).clamped(true)
+    t.deepEqual(linearD3.ticks(), linear.ticks().toJS())
+    t.deepEqual(linearD3.ticks(20), linear.ticks(20).toJS(20))
+})
+
+test('nice', t => {
+    let domain = [3, 87]
+    let range = [24, 44]
+    let linearD3 = scaleLinear().domain(domain).range(range).clamp(true).nice()
+    let linear = new ContinuousScale()
+        .domain(domain)
+        .range(range)
+        .clamped(true)
+        .nice()
+    t.deepEqual(linearD3.domain(), linear.domain().toJS())
+    t.deepEqual(linearD3.range(), linear.range().toJS(20))
+    t.deepEqual(linearD3.ticks(), linear.ticks().toJS())
+    t.deepEqual(linearD3.ticks(20), linear.ticks(20).toJS(20))
+})
