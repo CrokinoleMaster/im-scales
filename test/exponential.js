@@ -26,7 +26,14 @@ test('scale output', t => {
     let powerD3 = scalePow().domain(domain).range(range).exponent(2)
     let power = new ContinuousScale().domain(domain).range(range).exponent(2)
     t.is(powerD3(4), power.x(4))
+    t.is(powerD3(6), power.x(6))
+    t.is(powerD3(8), power.x(8))
+    t.is(powerD3.invert(20), power.y(20))
     t.is(powerD3.invert(24), power.y(24))
+    t.is(powerD3.invert(28), power.y(28))
+    t.is(powerD3.invert(33), power.y(33))
+    t.is(powerD3.invert(38), power.y(38))
+    t.is(powerD3.invert(40), power.y(40))
 })
 
 test('outofbounds not clamped', t => {
