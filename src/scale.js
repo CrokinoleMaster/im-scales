@@ -6,7 +6,7 @@ const ScaleRecord = Im.Record({
     _rounded: false,
     _clamped: false,
     _exponent: 1,
-    _base: 1
+    _base: 10
 })
 
 class Scale extends ScaleRecord {

@@ -67,6 +67,13 @@ test('ticks', t => {
     let log = new LogScale().domain(domain).range(range).clamped(true).base(2)
     t.deepEqual(logD3.ticks(), log.ticks().toJS())
     t.deepEqual(logD3.ticks(20), log.ticks(20).toJS(20))
+
+    domain = [-40, -12]
+    range = [-20, -4]
+    logD3 = scaleLog().domain(domain).range(range).clamp(true).base(4)
+    log = new LogScale().domain(domain).range(range).clamped(true).base(4)
+    t.deepEqual(logD3.ticks(), log.ticks().toJS())
+    t.deepEqual(logD3.ticks(20), log.ticks(20).toJS(20))
 })
 
 test('nice', t => {
