@@ -4,10 +4,13 @@ const { clamp } = require('./utils')
 
 class LinearScale extends ContinuousScale {
     x(xValue) {
-        const interpolator = interpolate(this.range().min(), this.range().max())
+        const interpolator = interpolate(
+            this.range().first(),
+            this.range().last()
+        )
         let n =
-            (xValue - this.domain().min()) /
-            (this.domain().max() - this.domain().min())
+            (xValue - this.domain().first()) /
+            (this.domain().last() - this.domain().first())
         // check if clamped is set to true
         if (this.clamped()) {
             n = clamp(n, 0, 1)
@@ -22,12 +25,12 @@ class LinearScale extends ContinuousScale {
 
     y(yValue) {
         const interpolator = interpolate(
-            this.domain().min(),
-            this.domain().max()
+            this.domain().first(),
+            this.domain().last()
         )
         let n =
-            (yValue - this.range().min()) /
-            (this.range().max() - this.range().min())
+            (yValue - this.range().first()) /
+            (this.range().last() - this.range().first())
         // check if clamped is set to true
         if (this.clamped()) {
             n = clamp(n, 0, 1)

@@ -11,11 +11,14 @@ const reinterpolate = (a, b, exponent) => {
 
 class ExponentialScale extends ContinuousScale {
     x(xValue) {
-        const interpolator = interpolate(this.range().min(), this.range().max())
+        const interpolator = interpolate(
+            this.range().first(),
+            this.range().last()
+        )
         let n =
-            (raise(xValue, this.exponent()) - this.domain().min()) /
-            (raise(this.domain().max(), this.exponent()) -
-                raise(this.domain().min(), this.exponent()))
+            (raise(xValue, this.exponent()) - this.domain().first()) /
+            (raise(this.domain().last(), this.exponent()) -
+                raise(this.domain().first(), this.exponent()))
         // check if clamped is set to true
         if (this.clamped()) {
             n = clamp(n, 0, 1)
@@ -30,15 +33,15 @@ class ExponentialScale extends ContinuousScale {
 
     y(yValue) {
         let n =
-            (yValue - this.range().min()) /
-            (this.range().max() - this.range().min())
+            (yValue - this.range().first()) /
+            (this.range().last() - this.range().first())
         // check if clamped is set to true
         if (this.clamped()) {
             n = clamp(n, 0, 1)
         }
         const result = reinterpolate(
-            this.domain().min(),
-            this.domain().max(),
+            this.domain().first(),
+            this.domain().last(),
             this.exponent()
         )(n)
         // check if rounded is set to true

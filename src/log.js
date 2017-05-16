@@ -37,24 +37,27 @@ const reflect = f => {
 
 class LogScale extends ContinuousScale {
     x(xValue) {
-        const interpolator = interpolate(this.range().min(), this.range().max())
+        const interpolator = interpolate(
+            this.range().first(),
+            this.range().last()
+        )
         let log = getLogFunc(this.base())
-        if (this.domain().min() < 0) {
+        if (this.domain().first() < 0) {
             log = reflect(log)
         }
         // check if clamped is set to true
         if (this.clamped()) {
-            xValue = clamp(xValue, this.domain().min(), this.domain().max())
+            xValue = clamp(xValue, this.domain().first(), this.domain().last())
         }
         let n =
-            log(xValue / this.domain().min()) /
-            log(this.domain().max() / this.domain().min())
+            log(xValue / this.domain().first()) /
+            log(this.domain().last() / this.domain().first())
         let result = interpolator(n)
-        if (xValue === this.domain().min()) {
-            result = this.range().min()
+        if (xValue === this.domain().first()) {
+            result = this.range().first()
         }
-        if (xValue === this.domain().max()) {
-            result = this.range().max()
+        if (xValue === this.domain().last()) {
+            result = this.range().last()
         }
         // check if rounded is set to true
         if (isNaN(result) || !this.rounded()) {
@@ -65,12 +68,12 @@ class LogScale extends ContinuousScale {
 
     y(yValue) {
         const interpolator = interpolate(
-            this.domain().min(),
-            this.domain().max()
+            this.domain().first(),
+            this.domain().last()
         )
         let n =
-            (yValue - this.range().min()) /
-            (this.range().max() - this.range().min())
+            (yValue - this.range().first()) /
+            (this.range().last() - this.range().first())
         // check if clamped is set to true
         if (this.clamped()) {
             n = clamp(n, 0, 1)
@@ -85,16 +88,16 @@ class LogScale extends ContinuousScale {
 
     ticks(count) {
         let log = getLogFunc(this.base())
-        if (this.domain().min() < 0) {
+        if (this.domain().first() < 0) {
             log = reflect(log)
         }
         let pow = getPowFunc(this.base())
-        if (this.domain().min() < 0) {
+        if (this.domain().first() < 0) {
             pow = reflect(pow)
         }
         let d = this.domain()
-        let u = d.min()
-        let v = d.max()
+        let u = d.first()
+        let v = d.last()
         let r
 
         let i = log(u)
@@ -150,11 +153,11 @@ class LogScale extends ContinuousScale {
 
     nice() {
         let log = getLogFunc(this.base())
-        if (this.domain().min() < 0) {
+        if (this.domain().first() < 0) {
             log = reflect(log)
         }
         let pow = getPowFunc(this.base())
-        if (this.domain().min() < 0) {
+        if (this.domain().first() < 0) {
             pow = reflect(pow)
         }
         let domain = this.domain()
