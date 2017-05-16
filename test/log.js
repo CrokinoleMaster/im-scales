@@ -27,6 +27,11 @@ test('scale output', t => {
     let log = new LogScale().domain(domain).range(range).base(2)
     domain.forEach(x => t.is(logD3(x), log.x(x)))
     range.forEach(y => t.is(logD3.invert(y), log.y(y)))
+
+    range = ['#111111', '#00ff00']
+    logD3 = scaleLog().domain(domain).range(range).base(2)
+    log = new LogScale().domain(domain).range(range).base(2)
+    domain.forEach(x => t.is(logD3(x), log.x(x)))
 })
 
 test('scale output negative', t => {

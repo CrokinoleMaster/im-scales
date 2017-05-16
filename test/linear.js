@@ -18,6 +18,9 @@ test('set range', t => {
     linearD3 = linearD3.range([20, 30])
     linear = linear.range([20, 30])
     t.deepEqual(linearD3.range(), linear.range().toJS())
+    linearD3 = linearD3.range(['#111111', '#00ff00'])
+    linear = linear.range(['#111111', '#00ff00'])
+    t.deepEqual(linearD3.range(), linear.range().toJS())
 })
 
 test('scale output', t => {
@@ -27,6 +30,11 @@ test('scale output', t => {
     let linear = new LinearScale().domain(domain).range(range)
     domain.forEach(x => t.is(linearD3(x), linear.x(x)))
     range.forEach(y => t.is(linearD3.invert(y), linear.y(y)))
+
+    range = ['#000', '#0f0']
+    linearD3 = scaleLinear().domain(domain).range(range)
+    linear = new LinearScale().domain(domain).range(range)
+    domain.forEach(x => t.is(linearD3(x), linear.x(x)))
 })
 
 test('outofbounds not clamped', t => {

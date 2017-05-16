@@ -27,6 +27,11 @@ test('scale output', t => {
     let power = new ExponentialScale().domain(domain).range(range).exponent(2)
     domain.forEach(x => t.is(powerD3(x), power.x(x)))
     range.forEach(y => t.is(powerD3.invert(y), power.y(y)))
+
+    range = ['#111111', '#00ff00']
+    powerD3 = scalePow().domain(domain).range(range).exponent(2)
+    power = new ExponentialScale().domain(domain).range(range).exponent(2)
+    domain.forEach(x => t.is(powerD3(x), power.x(x)))
 })
 
 test('outofbounds not clamped', t => {
