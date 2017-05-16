@@ -5,7 +5,8 @@ const ScaleRecord = Im.Record({
     _range: Im.List(),
     _rounded: false,
     _clamped: false,
-    _exponent: 1
+    _exponent: 1,
+    _base: 1
 })
 
 class Scale extends ScaleRecord {
@@ -38,6 +39,12 @@ class Scale extends ScaleRecord {
             return this._exponent
         }
         return this.set('_exponent', newExponent)
+    }
+    base(newBase) {
+        if (newBase === undefined) {
+            return this._base
+        }
+        return this.set('_base', newBase)
     }
 }
 
