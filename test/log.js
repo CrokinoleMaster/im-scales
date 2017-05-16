@@ -29,6 +29,15 @@ test('scale output', t => {
     range.forEach(y => t.is(logD3.invert(y), log.y(y)))
 })
 
+test('scale output negative', t => {
+    let domain = [-10, -1]
+    let range = [-40, -20]
+    let logD3 = scaleLog().domain(domain).range(range).base(2)
+    let log = new LogScale().domain(domain).range(range).base(2)
+    domain.forEach(x => t.is(logD3(x), log.x(x)))
+    range.forEach(y => t.is(logD3.invert(y), log.y(y)))
+})
+
 test('outofbounds not clamped', t => {
     let domain = [1, 10]
     let range = [20, 40]
