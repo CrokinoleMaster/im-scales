@@ -1,6 +1,8 @@
 'use strict'
-const ContinuousScale = require('./src/continuous')
+const LinearScale = require('./src/linear')
+const ExponentialScale = require('./src/exponential')
 
 module.exports = {
-    ContinuousScale
+    LinearScale,
+    ExponentialScale
 }
