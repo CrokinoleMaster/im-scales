@@ -2,7 +2,7 @@ const { interpolate } = require('d3-interpolate')
 const Im = require('immutable')
 const { ticks } = require('d3-array')
 const ContinuousScale = require('./continuous')
-const { clamp } = require('./utils')
+const { clamp, nice } = require('./utils')
 
 const pow10 = x => {
     return isFinite(x) ? Number('1e' + x) : x < 0 ? 0 : x
@@ -49,7 +49,13 @@ class LogScale extends ContinuousScale {
         let n =
             log(xValue / this.domain().min()) /
             log(this.domain().max() / this.domain().min())
-        const result = interpolator(n)
+        let result = interpolator(n)
+        if (xValue === this.domain().min()) {
+            result = this.range().min()
+        }
+        if (xValue === this.domain().max()) {
+            result = this.range().max()
+        }
         // check if rounded is set to true
         if (isNaN(result) || !this.rounded()) {
             return result
@@ -140,6 +146,28 @@ class LogScale extends ContinuousScale {
         }
 
         return Im.List(r ? z.reverse() : z)
+    }
+
+    nice() {
+        let log = getLogFunc(this.base())
+        if (this.domain().min() < 0) {
+            log = reflect(log)
+        }
+        let pow = getPowFunc(this.base())
+        if (this.domain().min() < 0) {
+            pow = reflect(pow)
+        }
+        let domain = this.domain()
+        return this.domain(
+            nice(domain, {
+                floor: x => {
+                    return pow(Math.floor(log(x)))
+                },
+                ceil: x => {
+                    return pow(Math.ceil(log(x)))
+                }
+            })
+        )
     }
 }
 
