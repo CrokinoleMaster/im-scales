@@ -25,8 +25,8 @@ test('scale output', t => {
     let range = [20, 40]
     let linearD3 = scaleLinear().domain(domain).range(range)
     let linear = new ContinuousScale().domain(domain).range(range)
-    t.is(linearD3(4), linear.x(4))
-    t.is(linearD3.invert(24), linear.y(24))
+    domain.forEach(x => t.is(linearD3(x), linear.x(x)))
+    range.forEach(y => t.is(linearD3.invert(y), linear.y(y)))
 })
 
 test('outofbounds not clamped', t => {
@@ -35,7 +35,9 @@ test('outofbounds not clamped', t => {
     let linearD3 = scaleLinear().domain(domain).range(range)
     let linear = new ContinuousScale().domain(domain).range(range)
     t.is(linearD3(20), linear.x(20))
+    t.is(linearD3(-2), linear.x(-2))
     t.is(linearD3.invert(10), linear.y(10))
+    t.is(linearD3.invert(44), linear.y(44))
 })
 
 test('outofbounds clamped', t => {
@@ -44,7 +46,9 @@ test('outofbounds clamped', t => {
     let linearD3 = scaleLinear().domain(domain).range(range).clamp(true)
     let linear = new ContinuousScale().domain(domain).range(range).clamped(true)
     t.is(linearD3(20), linear.x(20))
+    t.is(linearD3(-23), linear.x(-23))
     t.is(linearD3.invert(10), linear.y(10))
+    t.is(linearD3.invert(44), linear.y(44))
 })
 
 test('ticks', t => {

@@ -2,12 +2,12 @@ const Im = require('immutable')
 const { interpolate } = require('d3-interpolate')
 const { ticks, tickStep } = require('d3-array')
 const { Scale } = require('./scale')
-const { clamp } = require('./utils')
+const { clamp, raise } = require('./utils')
 
 const reinterpolate = (a, b, exponent) => {
-    b = Math.pow(b, exponent) - (a = Math.pow(a, exponent))
+    b = raise(b, exponent) - (a = raise(a, exponent))
     return t => {
-        return Math.pow(a + b * t, 1 / exponent)
+        return raise(a + b * t, 1 / exponent)
     }
 }
 
@@ -25,9 +25,9 @@ class ContinuousScale extends Scale {
     x(xValue) {
         const interpolator = interpolate(this.range().min(), this.range().max())
         let n =
-            (Math.pow(xValue, this.exponent()) - this.domain().min()) /
-            (Math.pow(this.domain().max(), this.exponent()) -
-                Math.pow(this.domain().min(), this.exponent()))
+            (raise(xValue, this.exponent()) - this.domain().min()) /
+            (raise(this.domain().max(), this.exponent()) -
+                raise(this.domain().min(), this.exponent()))
         // check if clamped is set to true
         if (this.clamped()) {
             n = clamp(n, 0, 1)
@@ -41,10 +41,6 @@ class ContinuousScale extends Scale {
     }
 
     y(yValue) {
-        // const interpolator = interpolate(
-        //     this.domain().min(),
-        //     this.domain().max()
-        // )
         let n =
             (yValue - this.range().min()) /
             (this.range().max() - this.range().min())
@@ -57,7 +53,6 @@ class ContinuousScale extends Scale {
             this.domain().max(),
             this.exponent()
         )(n)
-        // const result = interpolator(n)
         // check if rounded is set to true
         if (isNaN(result) || !this.rounded()) {
             return result

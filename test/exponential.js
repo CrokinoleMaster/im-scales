@@ -25,15 +25,8 @@ test('scale output', t => {
     let range = [20, 40]
     let powerD3 = scalePow().domain(domain).range(range).exponent(2)
     let power = new ContinuousScale().domain(domain).range(range).exponent(2)
-    t.is(powerD3(4), power.x(4))
-    t.is(powerD3(6), power.x(6))
-    t.is(powerD3(8), power.x(8))
-    t.is(powerD3.invert(20), power.y(20))
-    t.is(powerD3.invert(24), power.y(24))
-    t.is(powerD3.invert(28), power.y(28))
-    t.is(powerD3.invert(33), power.y(33))
-    t.is(powerD3.invert(38), power.y(38))
-    t.is(powerD3.invert(40), power.y(40))
+    domain.forEach(x => t.is(powerD3(x), power.x(x)))
+    range.forEach(y => t.is(powerD3.invert(y), power.y(y)))
 })
 
 test('outofbounds not clamped', t => {
@@ -42,7 +35,9 @@ test('outofbounds not clamped', t => {
     let powerD3 = scalePow().domain(domain).range(range).exponent(2)
     let power = new ContinuousScale().domain(domain).range(range).exponent(2)
     t.is(powerD3(20), power.x(20))
+    t.is(powerD3(-2), power.x(-2))
     t.is(powerD3.invert(10), power.y(10))
+    t.is(powerD3.invert(44), power.y(44))
 })
 
 test('outofbounds clamped', t => {
@@ -55,7 +50,9 @@ test('outofbounds clamped', t => {
         .clamped(true)
         .exponent(2)
     t.is(powerD3(20), power.x(20))
+    t.is(powerD3(-23), power.x(-23))
     t.is(powerD3.invert(10), power.y(10))
+    t.is(powerD3.invert(44), power.y(44))
 })
 
 test('ticks', t => {
