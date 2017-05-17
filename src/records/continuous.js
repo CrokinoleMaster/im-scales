@@ -9,7 +9,7 @@ const ScaleRecord = Im.Record({
     _base: 10
 })
 
-class Scale extends ScaleRecord {
+class Record extends ScaleRecord {
     domain(newDomain) {
         if (!newDomain) {
             return this._domain
@@ -48,6 +48,4 @@ class Scale extends ScaleRecord {
     }
 }
 
-module.exports = {
-    Scale
-}
+module.exports = Record

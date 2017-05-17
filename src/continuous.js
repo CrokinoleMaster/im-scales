@@ -1,6 +1,6 @@
 const Im = require('immutable')
 const { ticks, tickStep } = require('d3-array')
-const { Scale } = require('./scale')
+const Scale = require('./records/continuous')
 
 class ContinuousScale extends Scale {
     // get the standard scale function
