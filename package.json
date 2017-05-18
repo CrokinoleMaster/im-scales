@@ -43,7 +43,8 @@
                 }
             ],
             "object-curly-spacing": 0,
-            "no-mixed-operators": 0
+            "no-mixed-operators": 0,
+            "operator-linebreak": 0
         }
     }
 }

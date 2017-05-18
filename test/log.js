@@ -1,6 +1,7 @@
 const test = require('ava')
 const { scaleLog } = require('d3-scale')
 const { LogScale } = require('..')
+const { rgbToHex } = require('../src/utils')
 
 test('set domain', t => {
     let logD3 = scaleLog().domain([1, 10]).base(2)
@@ -31,7 +32,7 @@ test('scale output', t => {
     range = ['#111111', '#00ff00']
     logD3 = scaleLog().domain(domain).range(range).base(2)
     log = new LogScale().domain(domain).range(range).base(2)
-    domain.forEach(x => t.is(logD3(x), log.x(x)))
+    domain.forEach(x => t.is(rgbToHex(logD3(x)), log.x(x)))
 })
 
 test('scale output negative', t => {
